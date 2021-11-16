@@ -36,6 +36,10 @@ body .body {
   background-color: #fff;
   padding: 50px 0;
 }
+
+.login-form{
+	height: 700px;
+}
 * {
 	border-radius: 0 !important;
 	-webkit-border-radius: 0 !important;
@@ -531,6 +535,7 @@ a.rotate-box-1:hover, a.rotate-box-2:hover {
     text-transform: uppercase;
 }
 .portfolio_content{}
+
 .portfolio_single_content{
 	position: relative;
 	top: 0;
@@ -853,6 +858,12 @@ ul.social-list li a i {
 	background-color: #171717;
 	box-shadow: none;
 }
+
+.portfolioimage {
+	height: 360px;
+	width: 360px;
+}
+
 
 ul.contact-address {
 	float: left;
