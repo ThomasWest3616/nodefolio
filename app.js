@@ -2,9 +2,25 @@ const express = require("express");
 const app = express();
 app.use(express.static("public"));
 const nodemailer = require("nodemailer");
+const bodyParser = require('body-parser');
+
+    session = require('express-session');
+app.use(session({
+    secret: '2C44-4D44-WppQ38S',
+    resave: true,
+    saveUninitialized: true
+}));
+
+var auth = function(req, res, next) {
+    if (req.session && req.session.user === "thomas" && req.session.admin)
+      return next();
+    else
+      return res.sendStatus(401);
+  };
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 /* Import and use routes */
 const projectsRouter = require("./routers/projects.js");
@@ -19,16 +35,61 @@ const { createPage } = require("./render.js");
 const { urlencoded } = require("express");
 
 /* Ready the pages */
-const frontpagePage = createPage("frontpage/index.html", { 
+const frontpagePage = createPage("frontpage/index.html", {
         title: "Nodefolio | Welcome"
+});
+const adminPage = createPage("admin/admin.html", {
+    title: "Nodefolio | Admin" 
 });
 const CVPage = createPage("CVPage/CVPage.html");
 const projectsPage = createPage("projects/projects.html");
 const contactPage = createPage("contact/contact.html");
+const loginPage = createPage("login/login.html");
 
 app.get("/", (req, res) => {
     res.send(frontpagePage);
 });
+
+app.get('/login', function (req, res) {
+    res.send(loginPage)
+  });
+
+app.post('/auth', function (req, res) {
+    
+   const username = "thomas"
+   const password = "password"
+
+
+    if(req.body.username == username && req.body.password == password) {
+        res.send(adminPage);
+    } else if(req.body.username !== username || req.body.password !== password) {
+        res.send(projectsPage)
+
+    }  
+     
+    
+    /* if (!req.username || !req.password) {
+      res.send('login failed');    
+    } else if(req.username === "thomas" || req.password === "password") {
+      req.session.user = "thomas";
+      req.session.admin = true;
+      res.send("/admin/admin.html");
+    } */
+});
+
+
+  // Logout endpoint
+app.get('/logout', function (req, res) {
+    req.session.destroy();
+    res.send("logout success!");
+  });
+
+
+
+  app.get('/admin', auth, function (req, res) {
+    res.send("You can only see this after you've logged in.");
+});
+
 
 app.get("/cv", (req, res) => {
     res.send(CVPage);
@@ -49,7 +110,7 @@ app.post("/contact", (req, res) => {
         service: 'gmail',
         auth: {
             user: 'west3616@gmail.com',
-            pass: '34ptm3dJ'
+            pass: 'djz99pqt'
 
         }
 
