@@ -5,8 +5,8 @@ function sendContactMessage() {
         body: JSON.stringify({
             name: document.getElementById("name").value,
             email: document.getElementById("email").value,
-            phone: document.getElementById("phone").value,
-            subject: document.getElementById("subject").value,
+/*             phone: document.getElementById("phone").value,
+            subject: document.getElementById("subject").value, */
             name: document.getElementById("message").value,
         })  
     }).then(response => {

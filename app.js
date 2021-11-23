@@ -1,13 +1,26 @@
-const express = require("express");
+import express from 'express';
+import { connection } from './database.js';
+import session from 'express-session';
+import projectsRouter from './routers/projects.js'
+import contact from './routers/contact.js'
+
+
+
+
+
+
+
 const app = express();
 app.use(express.static("public"));
-const nodemailer = require("nodemailer");
-const bodyParser = require('body-parser');
-var mysql = require("mysql");
-var connection = require('./database')
-const encoder = bodyParser.urlencoded();
+app.use(contact);
 
-    session = require('express-session');
+
+const router = express.Router()
+
+
+
+
+
 app.use(session({
     secret: '2C44-4D44-WppQ38S',
     resave: true,
@@ -21,28 +34,27 @@ var auth = function(req, res, next) {
       return res.sendStatus(401);
   };
 
+app.use(projectsRouter);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.urlencoded({ extended: false }));
 
 /* Import and use routes */
-const projectsRouter = require("./routers/projects.js");
-const pagesRouter = require("./routers/pages.js")
-const contactRouter = require("./routers/contact.js");
 
-app.use(projectsRouter.router);
-app.use(pagesRouter.router);
-app.use(contactRouter.router);
 
-const { createPage } = require("./render.js");
-const { urlencoded } = require("express");
+
+
+
+
+import { createPage } from './render.js';
+import { urlencoded } from 'express';
+
 
 /* Ready the pages */
 const frontpagePage = createPage("frontpage/index.html", {
         title: "Nodefolio | Welcome"
 });
 const adminPage = createPage("admin/admin.html", {
-    title: "Nodefolio | Admin" 
+    title: "Nodefolio | Admin"
 });
 const CVPage = createPage("CVPage/CVPage.html");
 const projectsPage = createPage("projects/projects.html");
@@ -109,15 +121,13 @@ app.get('/logout', function (req, res) {
 });
 
 
-//Get all projects
-app.get('/projects', (req, res) => {
-    connection.query('SELECT * FROM projects', (err, rows, fields) => {
-        if (!err)
-            res.send(rows);
-        else
-            console.log(err);
-    })
-});
+
+
+  /* //Get all projects
+
+
+
+/*
 
 //Delete af project
 app.delete('/projects/:id', (req, res) => {
@@ -146,7 +156,7 @@ app.post('/projects', (req, res) => {
 });
 
 //Update project
-app.put('/projects', (req, res) => {
+app.post('/projects', (req, res) => {
     let project = req.body;
     var sql = "SET @idprojects = ?;SET @name = ?;SET @description = ?;SET @link = ?; \
     CALL EmployeeAddOrEdit(@projectsid,@name,@description,@link);";
@@ -156,14 +166,10 @@ app.put('/projects', (req, res) => {
         else
             console.log(err);
     })
-});
+}); */
 
 app.get("/cv", (req, res) => {
     res.send(CVPage);
-});
-
-app.get("/projects", (req, res) => {
-    res.send(projectsPage);
 });
 
 app.get("/contact", (req, res) => {
@@ -171,37 +177,15 @@ app.get("/contact", (req, res) => {
 });
 
 app.post("/contact", (req, res) => {
-    console.log(req.body);
-
-    const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: 'west3616@gmail.com',
-            pass: 'djz99pqt'
-
-        }
-
-
-    })
-
-    const mailOptions = {
-        from: req.body.email,
-        to: 'west3616@gmail.com',
-        subject: `Message from ${req.body.email}: ${req.body.subject}`,
-        text: req.body.message
-    }
-
-    transporter.sendMail(mailOptions, (error, info)=> {
-        if(error) {
-            console.log(error);
-            res.send('error')
-        }else{
-            console.log('Email sent:' + info.response);
-            res.send('success')
-        }
-    });
-
+    console.log(req.body); 
 });
+
+// app.get("/projects", (req, res) => {
+   // res.send(projectsPage);
+// });
+
+
+
 
 
 

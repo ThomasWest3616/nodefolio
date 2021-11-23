@@ -1,6 +1,6 @@
-var mysql = require("mysql")
+import mysql from 'mysql';
 
-var connection = mysql.createConnection({
+export var connection = mysql.createConnection({
     host: "localhost",
     database: 'nodefolie',
     user: 'root',
@@ -12,4 +12,3 @@ connection.connect(function(err) {
     console.log('Database connected!');
 })
 
-module.exports = connection;
