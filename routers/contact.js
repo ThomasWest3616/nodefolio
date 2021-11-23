@@ -6,37 +6,6 @@ const app = express();
 
 
 
-
-   /* const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: 'west3616@gmail.com',
-            pass: 'djz99pqt'
-
-        }
-
-
-    })
-
-    const mailOptions = {
-        from: req.body.email,
-        to: 'west3616@gmail.com',
-        subject: `Message from ${req.body.email}: ${req.body.subject}`,
-        text: req.body.message
-    }
-
-    transporter.sendMail(mailOptions, (error, info)=> {
-        if(error) {
-            console.log(error);
-            res.send('error')
-        }else{
-            console.log('Email sent:' + info.response);
-            res.send('success')
-        }
-    }); */
-
-
-
     router.post("/api/contact", (req, res) => {
         console.log(req.body);
     

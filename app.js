@@ -65,13 +65,6 @@ app.get("/", (req, res) => {
     res.send(frontpagePage);
 });
 
-/* app.get("/", (req, res) => {
-    let sql = "SELECT * FROM USER"
-    connection.query(sql, function(err, results) {
-        if (err) throw err;
-        res.send(results);
-    });
-}); */
 
 app.get('/login', function (req, res) {
     res.send(loginPage)
@@ -110,63 +103,19 @@ app.get('/logout', function (req, res) {
 
 
   app.get('/admin', function(request, response) {
-	response.send(adminPage);
+
     
-    /* if (request.session.loggedin) {
+    if (request.session.loggedin) {
 		response.send(adminPage);
 	} else {
 		response.send(loginPage);
 	}
-	response.end(); */
+	response.end();
 });
 
 
 
 
-  /* //Get all projects
-
-
-
-/*
-
-//Delete af project
-app.delete('/projects/:id', (req, res) => {
-    connection.query('DELETE FROM projects WHERE idprojects = ?', [req.params.id], (err, rows, fields) => {
-        if (!err)
-            res.send('Deleted successfully.');
-        else
-            console.log(err);
-    })
-});
-
-//Insert project
-app.post('/projects', (req, res) => {
-    let project = req.body;
-    var sql = "SET @idprojects = ?;SET @name = ?;SET @description = ?;SET @link = ?; \
-    CALL EmployeeAddOrEdit(@projectsid,@name,@description,@link);";
-    connection.query(sql, [project.projectsid, project.name, project.description, project.link], (err, rows, fields) => {
-        if (!err)
-            rows.forEach(element => {
-                if(element.constructor == Array)
-                res.send('Project added with id: '+element[0].projectsid);
-            });
-        else
-            console.log(err);
-    })
-});
-
-//Update project
-app.post('/projects', (req, res) => {
-    let project = req.body;
-    var sql = "SET @idprojects = ?;SET @name = ?;SET @description = ?;SET @link = ?; \
-    CALL EmployeeAddOrEdit(@projectsid,@name,@description,@link);";
-    connection.query(sql, [project.projectsid, project.name, project.description, project.link], (err, rows, fields) => {
-        if (!err)
-            res.send('Updated successfully');
-        else
-            console.log(err);
-    })
-}); */
 
 app.get("/cv", (req, res) => {
     res.send(CVPage);
@@ -180,9 +129,9 @@ app.post("/contact", (req, res) => {
     console.log(req.body); 
 });
 
-// app.get("/projects", (req, res) => {
-   // res.send(projectsPage);
-// });
+app.get("/projects", (req, res) => {
+ res.send(projectsPage);
+ });
 
 
 
